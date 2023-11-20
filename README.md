@@ -30,6 +30,11 @@ This FiveM script, designed for administrators, streamlines player management fo
 - Advanced Kick System (with [foltone_sanctions](https://forum.cfx.re/t/paid-standlone-admin-command-ban-kick-jail-fr-en/5157088))
 - Advanced Jail/Unjail System (with [foltone_sanctions](https://forum.cfx.re/t/paid-standlone-admin-command-ban-kick-jail-fr-en/5157088))
 
+
+### Dependencies
+- [es_extended](https://github.com/esx-framework/esx_core/tree/main/%5Bcore%5D/es_extended)
+- OPTIMAL [foltone_sanctions](https://forum.cfx.re/t/paid-standlone-admin-command-ban-kick-jail-fr-en/5157088) or [BanSql](https://github.com/RedAlex/FiveM-BanSql)
+
 ### Vidéo
 https://youtu.be/G8zTOF0x32s
 
