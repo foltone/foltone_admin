@@ -22,6 +22,10 @@ window.addEventListener("message", (event) => {
         $("#container").hide();
     } else if (event.data.type === "update") {
         update();
+    } else if (event.data.type === "updateTicket") {
+        const ticketDiv = document.getElementById("ticket");
+        const ticket = event.data.ticket;
+        ticketDiv.children[1].innerHTML = ticket;
     } else if (event.data.type == "updateElement") {
         if (event.data.element == "spectate") {
             const spectate = document.getElementsByClassName("spectate")[0];

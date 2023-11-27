@@ -1037,6 +1037,12 @@ end)
 RegisterNetEvent("foltone_admin_menu:receiveTickets")
 AddEventHandler("foltone_admin_menu:receiveTickets", function(tickets)
     ticketsList = tickets
+    if serviceStatue then
+        SendNUIMessage({
+            type = "updateTicket"
+            ticket = #ticketsList
+        })
+    end
 end)
 RegisterNetEvent("foltone_admin_menu:receiveMessage")
 AddEventHandler("foltone_admin_menu:receiveMessage", function(message)
