@@ -1039,7 +1039,7 @@ AddEventHandler("foltone_admin_menu:receiveTickets", function(tickets)
     ticketsList = tickets
     if serviceStatue then
         SendNUIMessage({
-            type = "updateTicket"
+            type = "updateTicket",
             ticket = #ticketsList
         })
     end
