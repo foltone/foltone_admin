@@ -1003,7 +1003,7 @@ function RageUI.PoolMenus:FoltoneTicket()
     end)
 end
 
-Keys.Register("F10", "F10", "Open Admin Menu", function()
+Keys.Register(Config.openKey, Config.openKey, "Open Admin Menu", function()
 	ESX.TriggerServerCallback("foltone_admin_menu:getPlayerData", function(data)
         local group = data.group
 		if group == "mod" or group == "admin" or group == "superadmin" or group == "owner" or group == "_dev" then

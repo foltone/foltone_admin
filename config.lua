@@ -3,6 +3,8 @@ Config = {
 
     UseFoltoneSanction = false, -- https://forum.cfx.re/t/paid-standlone-admin-command-ban-kick-jail-fr-en/5157088
 
+    openKey = "F10", -- F10
+
     teleport_list = {
         { name = "Police Station", coords = vector3(432.2, -981.8, 30.7) },
         { name = "Hospital", coords = vector3(296.8, -583.9, 43.1) },
