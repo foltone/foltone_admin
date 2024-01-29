@@ -898,6 +898,9 @@ function RageUI.PoolMenus:FoltoneTicket()
                 Items:AddButton(_U("ticket_button", v.permid, v.name), _U("press_enter_get_ticket"), { RightLabel = ">", IsDisabled = false }, function(onSelected)
                     if (onSelected) then
                         TriggerServerEvent("foltone_admin_menu:takeTicket", v.permid)
+                        if Config.UseFoltoneSanction then
+                            TriggerServerEvent("foltone_sanction:takeTicket", v.permid)
+                        end
                         ticketSelected = v
                         for k, v in pairs(playersList) do
                             if GetPlayerServerId(v) == ticketSelected.id then
@@ -964,6 +967,9 @@ function RageUI.PoolMenus:FoltoneTicket()
                 if (onSelected) then
                     TriggerServerEvent("foltone_admin_menu:openTicket", ticketSelected.permid)
                     TriggerServerEvent("foltone_admin_menu:takeTicket", ticketSelected.permid)
+                    if Config.UseFoltoneSanction then
+                        TriggerServerEvent("foltone_sanction:takeTicket", v.permid)
+                    end
                     refreshTickets()
                 end
             end)
@@ -982,6 +988,9 @@ function RageUI.PoolMenus:FoltoneTicket()
             Items:AddButton(_U("close_ticket"), nil, { RightLabel = ">", IsDisabled = false }, function(onSelected)
                 if (onSelected) then
                     TriggerServerEvent("foltone_admin_menu:closeTicket", ticketSelected.permid)
+                    if Config.UseFoltoneSanction then
+                        TriggerServerEvent("foltone_sanction:closeTicket", ticketSelected.permid)
+                    end
                     resetVars()
                     refreshTickets()
                     RageUI.GoBack()
@@ -993,6 +1002,9 @@ function RageUI.PoolMenus:FoltoneTicket()
         Items:AddButton(_U("delete_ticket"), nil, { RightBadge = RageUI.BadgeStyle.Alert, IsDisabled = false }, function(onSelected)
             if (onSelected) then
                 TriggerServerEvent("foltone_admin_menu:deleteTicket", ticketSelected.permid)
+                if Config.UseFoltoneSanction then
+                    TriggerServerEvent("foltone_sanction:deleteTicket", ticketSelected.permid)
+                end
                 resetVars()
                 refreshTickets()
                 RageUI.GoBack()
@@ -1004,12 +1016,15 @@ function RageUI.PoolMenus:FoltoneTicket()
 end
 
 Keys.Register(Config.openKey, Config.openKey, "Open Admin Menu", function()
-	ESX.TriggerServerCallback("foltone_admin_menu:getPlayerData", function(data)
-        local group = data.group
-		if group == "mod" or group == "admin" or group == "superadmin" or group == "owner" or group == "_dev" then
-			RageUI.Visible(mainAdminmenu, not RageUI.Visible(mainAdminmenu))
-		end
-	end, GetPlayerServerId(PlayerId()))
+    if not timout then
+        setTimout(500)
+        ESX.TriggerServerCallback("foltone_admin_menu:getPlayerData", function(data)
+            local group = data.group
+            if group == "mod" or group == "admin" or group == "superadmin" or group == "owner" or group == "_dev" then
+                RageUI.Visible(mainAdminmenu, not RageUI.Visible(mainAdminmenu))
+            end
+        end, GetPlayerServerId(PlayerId()))
+    end
 end)
 
 

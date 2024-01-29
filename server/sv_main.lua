@@ -114,14 +114,19 @@ end)
 RegisterServerEvent("foltone_admin_menu:addTicket")
 AddEventHandler("foltone_admin_menu:addTicket", function(message)
     local _source = source
+    local ticketId = 0
     for i = 1, #ticketsList do
         if ticketsList[i].id == _source then
+            ticketId = ticketsList[i].permid
             TriggerClientEvent("foltone_admin_menu:notification", _source, _U("ticket_already_exist"))
             return
         end
     end
     addTicket(_source, message)
     TriggerClientEvent("foltone_admin_menu:notification", _source, _U("ticket_submitted"))
+    if Config.UseFoltoneSanction then
+        TriggerEvent("foltone_sanction:sendTicket", ticketId, message)
+    end
 end)
 
 RegisterServerEvent("foltone_admin_menu:getTickets")
