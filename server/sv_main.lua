@@ -7,6 +7,18 @@ AddEventHandler("foltone_admin_menu:healPlayer", function(target)
     TriggerClientEvent("esx_basicneeds:healPlayer", target)
 end)
 
+ESX.RegisterServerCallback("foltone_admin_menu:getPlayers", function(source, cb)
+    local players = {}
+    local xPlayers = ESX.GetPlayers()
+    for i=1, #xPlayers, 1 do
+        local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
+        table.insert(players, {
+            id = xPlayer.source
+        })
+    end
+    cb(players)
+end)
+
 ESX.RegisterServerCallback("foltone_admin_menu:getPlayerData", function(source, cb, target)
     local xPlayer = ESX.GetPlayerFromId(target)
     local data = {

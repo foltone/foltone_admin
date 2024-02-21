@@ -36,7 +36,9 @@ local playersList = {}
 local playerSelected;
 
 local function refreshPlayers()
-    playersList = GetActivePlayers()
+    ESX.TriggerServerCallback("foltone_admin_menu:getPlayers", function(data)
+        playersList = data
+    end)
 end
 
 local function reFreshPlayerSelectedData()
@@ -402,7 +404,7 @@ local function playerOptions()
             if reason ~= nil and reason ~= "" then
                 if Config.UseFoltoneSanction then
                     if time ~= nil and time ~= "" then
-                        TriggerServerEvent("foltone_sanction:banPlayer", playerSelected.id, reason, time)
+                        TriggerServerEvent("foltone_sanction:banPlayer", playerSelected.id, time, reason)
                     else
                         Config.Notification(_U("no_time"))
                     end
@@ -423,7 +425,7 @@ local function playerOptions()
                 local time = KeyboardInput("Temps minutes (5)", "", 10)
                 if reason ~= nil and reason ~= "" then
                     if time ~= nil and time ~= "" then
-                        TriggerServerEvent("foltone_sanction:jailPlayer", playerSelected.id, reason, time)
+                        TriggerServerEvent("foltone_sanction:jailPlayer", playerSelected.id, time, reason)
                     else
                         Config.Notification(_U("no_time"))
                     end
@@ -638,12 +640,13 @@ function RageUI.PoolMenus:FoltoneTicket()
                             Config.Notification(_U("invalid_id"))
                         else
                             for k, v in pairs(playersList) do
-                                local playerServerId = GetPlayerServerId(v)
-                                local playerServerName = GetPlayerName(v)
+                                local playerServerId = tonumber(v.id)
+                                local player = GetPlayerFromServerId(playerServerId)
+                                local playerServerName = GetPlayerName(player)
                                 if playerServerId == tonumber(id) then
                                     playerSelected = {
                                         id = playerServerId,
-                                        player = v,
+                                        player = player,
                                         name = playerServerName
                                     }
                                     reFreshPlayerSelectedData()
@@ -661,13 +664,14 @@ function RageUI.PoolMenus:FoltoneTicket()
         end)
         Items:Line()
         for k, v in pairs(playersList) do
-            local playerServerId = GetPlayerServerId(v)
-            local playerServerName = GetPlayerName(v)
+            local playerServerId = tonumber(v.id)
+            local player = GetPlayerFromServerId(playerServerId)
+            local playerServerName = GetPlayerName(player)
             Items:AddButton(_U("player_button", playerServerId, playerServerName), nil, { RightLabel = ">", IsDisabled = timout }, function(onSelected)
                 if (onSelected) then
                     playerSelected = {
                         id = playerServerId,
-                        player = v,
+                        player = player,
                         name = playerServerName
                     }
                     reFreshPlayerSelectedData()
@@ -903,11 +907,12 @@ function RageUI.PoolMenus:FoltoneTicket()
                         end
                         ticketSelected = v
                         for k, v in pairs(playersList) do
-                            if GetPlayerServerId(v) == ticketSelected.id then
+                            local player = GetPlayerFromServerId(v.id)
+                            if GetPlayerServerId(player) == ticketSelected.id then
                                 playerSelected = {
-                                    id = GetPlayerServerId(v),
-                                    player = v,
-                                    name = GetPlayerName(v)
+                                    id = GetPlayerServerId(player),
+                                    player = player,
+                                    name = GetPlayerName(player)
                                 }
                                 break
                             end
