@@ -25,7 +25,7 @@ function RageUI.CreateMenu(Title, Subtitle, X, Y, TextureDictionary, TextureName
 	Menu.InstructionalButtons = {}
 
 	Menu.Display.Header = true;
-	Menu.Display.Glare = false;
+	Menu.Display.Glare = true;
 	Menu.Display.Subtitle = true;
 	Menu.Display.Background = true;
 	Menu.Display.Navigation = true;
@@ -46,7 +46,7 @@ function RageUI.CreateMenu(Title, Subtitle, X, Y, TextureDictionary, TextureName
 	Menu.Open = false
 	Menu.Controls = RageUI.Settings.Controls
 	Menu.Index = 1
-	Menu.Sprite = { Dictionary = TextureDictionary or "Shopui_title_barber", Texture = TextureName or "shopui_title_barber", Color = { R = R, G = G, B = B, A = A } }
+	Menu.Sprite = { Dictionary = TextureDictionary or "commonmenu", Texture = TextureName or "interaction_bgd", Color = { R = R, G = G, B = B, A = A } }
 	Menu.Rectangle = nil
 	Menu.Pagination = { Minimum = 1, Maximum = 10, Total = 10 }
 	Menu.Safezone = true

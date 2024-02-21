@@ -13,7 +13,7 @@ local Percentage = {
 ---@param HeaderText string
 ---@param MinText string
 ---@param MaxText string
----@param Callback function
+---@param FoltoneARCallback function
 ---@param Index number
 ---@return nil
 ---@public
@@ -21,7 +21,7 @@ function Items:PercentagePanel(Percent, HeaderText, MinText, MaxText, Actions, I
     local CurrentMenu = RageUI.CurrentMenu
     if (CurrentMenu ~= nil) then
         local Option = RageUI.Options + 1
-        if CurrentMenu.Pagination.Minimum <= Option and CurrentMenu.Pagination.Maximum >= Option and (Index == nil or (CurrentMenu.Index == Index)) then
+        if CurrentMenu.Pagination.Minimum <= Option and CurrentMenu.Pagination.Maximum >= Option then
             local Active = CurrentMenu.Index == Option;
             ---@type boolean
             local Hovered = Graphics.IsMouseInBounds(CurrentMenu.X + Percentage.Bar.X + CurrentMenu.SafeZoneSize.X, CurrentMenu.Y + Percentage.Bar.Y + CurrentMenu.SafeZoneSize.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset - 4, Percentage.Bar.Width + CurrentMenu.WidthOffset, Percentage.Bar.Height + 8)
@@ -51,15 +51,15 @@ function Items:PercentagePanel(Percent, HeaderText, MinText, MaxText, Actions, I
             if Hovered then
                 if IsDisabledControlPressed(0, 24) or IsControlPressed(0, 24) then
                     Selected = true
-
-                    Progress = math.round(GetControlNormal(2, 239) * 1920) - CurrentMenu.SafeZoneSize.X - (CurrentMenu.X + Percentage.Bar.X + (CurrentMenu.WidthOffset / 2))
-
+                    
+                    Progress = math.round((IsControlEnabled(2, 239) and GetControlNormal(2, 239) or GetDisabledControlNormal(2, 239)) * 1920 - CurrentMenu.SafeZoneSize.X - (CurrentMenu.X + Percentage.Bar.X + (CurrentMenu.WidthOffset / 2)))
+                    
                     if Progress < 0 then
                         Progress = 0
                     elseif Progress > (Percentage.Bar.Width) then
                         Progress = Percentage.Bar.Width
                     end
-
+                    
                     Percent = math.round(Progress / Percentage.Bar.Width, 2)
                     Actions(Percent, Actions)
                 end
@@ -73,4 +73,5 @@ function Items:PercentagePanel(Percent, HeaderText, MinText, MaxText, Actions, I
             end
         end
     end
+    RageUI.Options = RageUI.Options + 1
 end
