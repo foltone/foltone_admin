@@ -21,13 +21,13 @@ shared_scripts {
 }
 
 client_scripts {
-    "client/libs/RageUI.lua",
-    "client/libs/Menu.lua",
-    "client/libs/MenuController.lua",
-    "client/libs/components/*.lua",
-    "client/libs/elements/*.lua",
-    "client/libs/items/*.lua",
-    "client/libs/panels/*.lua",
+    "src/RageUI.lua",
+    "src/Menu.lua",
+    "src/MenuController.lua",
+    "src/components/*.lua",
+    "src/elements/*.lua",
+    "src/items/*.lua",
+    "src/panels/*.lua",
     "client/cl_main.lua"
 }
 
