@@ -112,6 +112,7 @@ Locales["fr"] = {
     ["take_by"] = "Pris par ~b~%s",
     ["show_free_ticket"] = "Afficher les tickets libres",
     ["ticket_separator"] = "Informations sur le ticket %s (%s)",
+    ["ticket_message"] = "Message",
     ["reason"] = "Reason : ",
     ["open_ticket"] = "~b~Ouvrir le ticket",
     ["open_take_ticket"] = "~g~Ouvrir et prendre le ticket",
