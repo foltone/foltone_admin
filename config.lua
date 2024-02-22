@@ -11,6 +11,21 @@ Config = {
         { name = "Mechanic", coords = vector3(-350.5, -133.5, 39.0) },
     },
 
+    moneyTypes = {
+        ["money"] = {
+            label = "Cash",
+            name = "money",
+        },
+        ["bank"] = {
+            label = "Dirty Cash",
+            name = "bank",
+        },
+        ["blackmoney"] = {
+            label = "Black Money",
+            name = "black_money",
+        },
+    },
+
     CallESX = function()
         ESX = exports["es_extended"]:getSharedObject()
     end,

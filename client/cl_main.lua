@@ -43,10 +43,7 @@ end
 
 local function reFreshPlayerSelectedData()
     ESX.TriggerServerCallback("foltone_admin_menu:getPlayerData", function(data)
-        if playerSelected[1] ~= nil then
-            table.remove(playerSelected, 1)
-        end
-        table.insert(playerSelected, data)
+        playerSelected.data = data
     end, playerSelected.id)
 end
 
@@ -445,11 +442,10 @@ local function playerOptions()
     end
 end
 local function playerSearchs()
-    local playerData = playerSelected[1]
-    Items:AddSeparator(_U("player_name", playerData.name))
-    Items:AddSeparator(_U("player_job", playerData.job.label, playerData.job.grade_label))
+    Items:AddSeparator(_U("player_name", playerSelected.name))
+    Items:AddSeparator(_U("player_job", playerSelected.data.job.label, playerSelected.data.job.grade_label))
     Items:AddSeparator(_U("money_separator"))
-    Items:AddList(_U("player_money", playerData.accounts[1].money), ListSearchOption, ListSearchOption[ListSearchOptionIndex], ListSearchOptionIndex, nil, {RightLabel = "", IsDisabled = timout }, function(Index, onSelected, onListChange)
+    Items:AddList(_U("player_money", playerSelected.data.money), ListSearchOption, ListSearchOption[ListSearchOptionIndex], ListSearchOptionIndex, nil, {RightLabel = "", IsDisabled = timout }, function(Index, onSelected, onListChange)
         if (onListChange) then
             ListSearchOptionIndex = Index
         end
@@ -464,9 +460,9 @@ local function playerSearchs()
                         Config.Notification(_U("invalid_amount"))
                     else
                         if ListSearchOptionIndex == 1 then
-                            TriggerServerEvent("foltone_admin_menu:removeAccountMoney", playerSelected.id, "money", amount)
+                            TriggerServerEvent("foltone_admin_menu:removeAccountMoney", playerSelected.id, Config.moneyTypes["money"].name, amount)
                         else
-                            TriggerServerEvent("foltone_admin_menu:giveAccountMoney", playerSelected.id, "money", amount)
+                            TriggerServerEvent("foltone_admin_menu:giveAccountMoney", playerSelected.id, Config.moneyTypes["money"].name, amount)
                         end
                         reFreshPlayerSelectedData()
                         setTimout(500)
@@ -477,7 +473,7 @@ local function playerSearchs()
             end
         end
     end)
-    Items:AddList(_U("player_bank", playerData.accounts[2].money), ListSearchOption, ListSearchOption[ListSearchOptionIndex], ListSearchOptionIndex, nil, {RightLabel = "", IsDisabled = timout }, function(Index, onSelected, onListChange)
+    Items:AddList(_U("player_bank", playerSelected.data.bank), ListSearchOption, ListSearchOption[ListSearchOptionIndex], ListSearchOptionIndex, nil, {RightLabel = "", IsDisabled = timout }, function(Index, onSelected, onListChange)
         if (onListChange) then
             ListSearchOptionIndex = Index
         end
@@ -492,9 +488,9 @@ local function playerSearchs()
                         Config.Notification(_U("invalid_amount"))
                     else
                         if ListSearchOptionIndex == 1 then
-                            TriggerServerEvent("foltone_admin_menu:removeAccountMoney", playerSelected.id, "bank", amount)
+                            TriggerServerEvent("foltone_admin_menu:removeAccountMoney", playerSelected.id, Config.moneyTypes["bank"].name, amount)
                         else
-                            TriggerServerEvent("foltone_admin_menu:giveAccountMoney", playerSelected.id, "bank", amount)
+                            TriggerServerEvent("foltone_admin_menu:giveAccountMoney", playerSelected.id, Config.moneyTypes["bank"].name, amount)
                         end
                         reFreshPlayerSelectedData()
                         setTimout(500)
@@ -505,7 +501,7 @@ local function playerSearchs()
             end
         end
     end)
-    Items:AddList(_U("player_black_money", playerData.accounts[3].money), ListSearchOption, ListSearchOption[ListSearchOptionIndex], ListSearchOptionIndex, nil, {RightLabel = "", IsDisabled = timout }, function(Index, onSelected, onListChange)
+    Items:AddList(_U("player_black_money", playerSelected.data.blackmoney), ListSearchOption, ListSearchOption[ListSearchOptionIndex], ListSearchOptionIndex, nil, {RightLabel = "", IsDisabled = timout }, function(Index, onSelected, onListChange)
         if (onListChange) then
             ListSearchOptionIndex = Index
         end
@@ -520,9 +516,9 @@ local function playerSearchs()
                         Config.Notification(_U("invalid_amount"))
                     else
                         if ListSearchOptionIndex == 1 then
-                            TriggerServerEvent("foltone_admin_menu:removeAccountMoney", playerSelected.id, "black_money", amount)
+                            TriggerServerEvent("foltone_admin_menu:removeAccountMoney", playerSelected.id, Config.moneyTypes["blackmoney"].name, amount)
                         else
-                            TriggerServerEvent("foltone_admin_menu:giveAccountMoney", playerSelected.id, "black_money", amount)
+                            TriggerServerEvent("foltone_admin_menu:giveAccountMoney", playerSelected.id, Config.moneyTypes["blackmoney"].name, amount)
                         end
                         reFreshPlayerSelectedData()
                         setTimout(500)
@@ -534,7 +530,7 @@ local function playerSearchs()
         end
     end)
     Items:AddSeparator(_U("player_inventory"))
-    for k, v in pairs(playerData.inventory) do
+    for k, v in pairs(playerSelected.data.inventory) do
         if v.count > 0 then
             Items:AddList(_U("player_inventory_item", v.count, v.label), ListSearchOption, ListSearchOption[ListSearchOptionIndex], ListSearchOptionIndex, nil, {RightLabel = "", IsDisabled = timout }, function(Index, onSelected, onListChange)
                 if (onListChange) then
@@ -567,7 +563,7 @@ local function playerSearchs()
         end
     end
     Items:AddSeparator(_U("player_weapon"))
-    for k, v in pairs(playerData.weapons) do
+    for k, v in pairs(playerSelected.data.weapons) do
         Items:AddButton(_U("player_inventory_weapon", v.label), nil, { RightLabel = _U("remove"), IsDisabled = timout }, function(onSelected)
             if (onSelected) then
                 TriggerServerEvent("foltone_admin_menu:removeWeapon", playerSelected.id, v.name, v.ammo)
@@ -647,7 +643,8 @@ function RageUI.PoolMenus:FoltoneTicket()
                                     playerSelected = {
                                         id = playerServerId,
                                         player = player,
-                                        name = playerServerName
+                                        name = playerServerName,
+                                        data = nil
                                     }
                                     reFreshPlayerSelectedData()
                                     RageUI.NextMenu = playerOption
@@ -672,7 +669,8 @@ function RageUI.PoolMenus:FoltoneTicket()
                     playerSelected = {
                         id = playerServerId,
                         player = player,
-                        name = playerServerName
+                        name = playerServerName,
+                        data = nil
                     }
                     reFreshPlayerSelectedData()
                 end
@@ -912,7 +910,8 @@ function RageUI.PoolMenus:FoltoneTicket()
                                 playerSelected = {
                                     id = GetPlayerServerId(player),
                                     player = player,
-                                    name = GetPlayerName(player)
+                                    name = GetPlayerName(player),
+                                    data = nil
                                 }
                                 break
                             end
@@ -952,7 +951,9 @@ function RageUI.PoolMenus:FoltoneTicket()
     end)
     optionTicket:IsVisible(function(Items)
         Items:AddSeparator(_U("ticket_separator", ticketSelected.permid, ticketSelected.name))
-        RageUI.Info(_U("reason"), ticketSelected.message)
+        
+        Items:AddButton(_U("ticket_message"), ticketSelected.message, { IsDisabled = false }, function(onSelected)
+        end)
 
         playerOptions()
 

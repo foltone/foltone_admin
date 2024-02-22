@@ -25,9 +25,10 @@ ESX.RegisterServerCallback("foltone_admin_menu:getPlayerData", function(source, 
         name = xPlayer.getName(),
         job = xPlayer.getJob(),
         inventory = xPlayer.getInventory(),
-        accounts = xPlayer.getAccounts(),
         weapons = xPlayer.getLoadout(),
-        money = xPlayer.getMoney(),
+        money = xPlayer.getAccount(Config.moneyTypes["money"].name).money,
+        bank = xPlayer.getAccount(Config.moneyTypes["bank"].name).money,
+        blackmoney = xPlayer.getAccount(Config.moneyTypes["blackmoney"].name).money,
         group = xPlayer.getGroup()
     }
     cb(data)
