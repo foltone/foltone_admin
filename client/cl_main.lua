@@ -574,7 +574,7 @@ local function playerSearchs()
     end
 end
 
-function RageUI.PoolMenus:FoltoneTicket()
+function RageUI.PoolMenus:FoltoneAdmin()
     mainAdminmenu:IsVisible(function(Items)
         Items:CheckBox(_U("service_statue"), nil, serviceStatue, { Style = 1 }, function(onSelected, IsChecked)
             if (onSelected) then
