@@ -125,4 +125,5 @@ Locales["fr"] = {
     ["ticket_submitted"] = "~g~Votre ticket a été soumis !",
     ["no_reason"] = "Vous devez mettre une raison!",
     ["ticket_already_exist"] = "Vous avez déja envoyé un ticket !",
+    ["ticket_taken"] = "Le ticket #%s a été pris  par %s."
 }
