@@ -345,7 +345,7 @@ local function playerOptions()
     end)
     Items:AddButton(_U("go_to_player"), nil, { RightBadge = RageUI.BadgeStyle.Player, IsDisabled = false }, function(onSelected)
         if (onSelected) then
-            local targetCoords = GetEntityCoords(GetPlayerPed(playerSelected.player), false);
+            local targetCoords = GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(playerSelected.id)))
             SetEntityCoords(PlayerPedId(), targetCoords.x, targetCoords.y, targetCoords.z + 1, false, false, false, false)
         end
     end)
