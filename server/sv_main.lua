@@ -24,16 +24,22 @@ ESX.RegisterServerCallback("foltone_admin_menu:getPlayers", function(source, cb)
     local xPlayers = ESX.GetPlayers()
     for i=1, #xPlayers, 1 do
         local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
-        table.insert(players, {
-            id = xPlayer.source,
-            name = xPlayer.getName()
-        })
+        if xPlayer then
+            table.insert(players, {
+                id = xPlayer.source,
+                name = xPlayer.getName()
+            })
+        end
     end
     cb(players)
 end)
 
 ESX.RegisterServerCallback("foltone_admin_menu:getPlayerData", function(source, cb, target)
     local xPlayer = ESX.GetPlayerFromId(target)
+    if xPlayer == nil then
+        cb(nil)
+        return
+    end
     local data = {
         name = xPlayer.getName(),
         job = xPlayer.getJob(),

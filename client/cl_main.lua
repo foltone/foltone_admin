@@ -43,7 +43,9 @@ end
 
 local function reFreshPlayerSelectedData()
     ESX.TriggerServerCallback("foltone_admin_menu:getPlayerData", function(data)
-        playerSelected.data = data
+        if data then
+            playerSelected.data = data
+        end
     end, playerSelected.id)
 end
 
@@ -1023,9 +1025,11 @@ Keys.Register(Config.openKey, Config.openKey, "Open Admin Menu", function()
     if not timout then
         setTimout(500)
         ESX.TriggerServerCallback("foltone_admin_menu:getPlayerData", function(data)
-            local group = data.group
-            if group == "mod" or group == "admin" or group == "superadmin" or group == "owner" or group == "_dev" then
-                RageUI.Visible(mainAdminmenu, not RageUI.Visible(mainAdminmenu))
+            if data then
+                local group = data.group
+                if group == "mod" or group == "admin" or group == "superadmin" or group == "owner" or group == "_dev" then
+                    RageUI.Visible(mainAdminmenu, not RageUI.Visible(mainAdminmenu))
+                end
             end
         end, GetPlayerServerId(PlayerId()))
     end
